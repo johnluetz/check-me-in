@@ -43,14 +43,56 @@ def insertStudent(Student):
         {'first':Student.first,'last':Student.last,'major':Student.major,'OA':Student.OA,'time':Student.time,'status':Student.status})
         print("Added "+Student.first+" "+Student.last)
 
-def display_all(self):
-    with conn:
+#returns all students in the database
+def get_all(self):
         c.execute("SELECT * FROM students")
         return(c.fetchall())
 
+#returns all students at the given appointment time
+def get_by_time(time):
+    try:
+        c.execute("SELECT * FROM students WHERE time=:time", {'time':time})
+        return c.fetchall()
+    except:
+        print("An invalid time was entered")
+
+#returns all students assigned to a certain OA
+def get_by_oa(oa_name):
+    try:
+        c.execute("SELECT * FROM students WHERE OA=:OA", {'OA':oa_name})
+        return c.fetchall()
+    except:
+        print("An invalid OA name was entered")
+
+#returns all students with a certian status
+def get_by_status(status):
+    try:
+        c.execute("SELECT * FROM students WHERE status=:status", {'status':status})
+        return c.fetchall()
+    except:
+        print("An invalid status was entered")
+
+#updates a student's status
+def update_status(first, last, major, time, newstatus):
+    first = first.upper() #likely not the best way, but sets all inputs to uppercase to mitigate case errors
+    last = last.upper()
+    major = major.upper()
+    time = time.upper()
+    newstatus = newstatus.upper()
+    with conn:
+        try:
+            c.execute("""UPDATE students SET status=:status
+                        WHERE first=:first AND last=:last AND time=:time AND major=:major""",
+                        {'first':first, 'last':last, 'time':time, 'major':major, 'status':newstatus})
+        except:
+            print("An invalid input was entered")
+
+
 createTable(None) #used for debugging with :memory: table
-insertAll(None)
-print(display_all(None))
+insertAll(None) #inserts all from csv into the table
+update_status('john','smith','ME','9:45 AM', 'ARRIVED')
+print(get_by_status('ARRIVED'))
+
 
 conn.commit()
 conn.close()
