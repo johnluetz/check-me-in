@@ -73,24 +73,22 @@ def get_by_status(status):
         print("An invalid status was entered")
 
 #updates a student's status
-def update_status(first, last, major, time, newstatus):
+def update_status(first, last, time, newstatus):
     first = first.upper() #likely not the best way, but sets all inputs to uppercase to mitigate case errors
     last = last.upper()
-    major = major.upper()
     time = time.upper()
     newstatus = newstatus.upper()
     with conn:
         try:
             c.execute("""UPDATE students SET status=:status
-                        WHERE first=:first AND last=:last AND time=:time AND major=:major""",
-                        {'first':first, 'last':last, 'time':time, 'major':major, 'status':newstatus})
+                        WHERE first=:first AND last=:last AND time=:time""",
+                        {'first':first, 'last':last, 'time':time, 'status':newstatus})
         except:
             print("An invalid input was entered")
 
 
 createTable(None) #used for debugging with :memory: table
 insertAll(None) #inserts all students from csv into the table
-update_status('john','smith','ME','9:45 AM', 'ARRIVED')
 print(get_by_status('ARRIVED'))
 
 

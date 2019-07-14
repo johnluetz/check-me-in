@@ -1,6 +1,7 @@
 #script for checking in students for their advising appointments
 import tkinter as tk
-from csvHandler import insertStudent, get_by_time, update_status
+from tkinter import ttk
+from csvHandler import insertStudent, get_by_time, update_status, get_by_status
 
 class Window(tk.Frame):
 
@@ -25,12 +26,23 @@ class Window(tk.Frame):
         timedata = get_by_time(nowtime)
         for student in timedata:
             studnames.append(student[0]+" "+student[1])
-        refresh_students(studnames)
+        refresh_students(studnames) #refresh the dropdown
         
     
     #checks a student in
     def check_in(self):
-        print(studvar.get()) #call db with student name as arg and update the status
+        nowtime = timevar.get()
+        selected_student = studvar.get()
+        timedata = get_by_time(nowtime)
+        for student in timedata:
+            if selected_student == student[0]+" "+student[1]: #if the selected student is one in the database
+                update_status(student[0],student[1],nowtime,"ARRIVED") #call db with student name as arg and update the status
+                print(get_by_status('ARRIVED'))
+                popupmsg(selected_student+ " has been checked in!")
+                
+                #send notification
+                break
+         
 
 #basic GUI code     
 
@@ -40,9 +52,9 @@ app = Window(root)
 
 #time dropdown
 timevar = tk.StringVar(root)
-times = ['10:00 AM','10:15 AM','10:30 AM','10:45 AM','11:00 AM','11:15 AM','11:30 AM','11:45 AM','12:00 PM','12:15 PM','12:30 PM','12:45 PM','1:00 PM','1:15 PM','1:30 PM','1:45 PM','2:00 PM','2:15 PM','2:30 PM','2:45 PM','3:00 PM','3:15 PM','3:30 PM','3:45 PM','4:00 PM']
+times = ['9:45 AM','10:00 AM','10:15 AM','10:30 AM','10:45 AM','11:00 AM','11:15 AM','11:30 AM','11:45 AM','12:00 PM','12:15 PM','12:30 PM','12:45 PM','1:00 PM','1:15 PM','1:30 PM','1:45 PM','2:00 PM','2:15 PM','2:30 PM','2:45 PM','3:00 PM','3:15 PM','3:30 PM','3:45 PM','4:00 PM']
 times_dict = {times[i] : i for i in range(0,len(times))} #lists all time slots
-timevar.set('10:00 AM')
+timevar.set('9:45 AM')
 timeMenu = tk.OptionMenu(app, timevar, *times_dict)
 tk.Label(app, text="Select a time").grid(row = 1, column = 1)
 timeMenu.grid(row = 2, column = 1)
@@ -54,6 +66,16 @@ students_dict = {'Student'}
 studentMenu = tk.OptionMenu(app, studvar, *students_dict)
 tk.Label(app, text="Select your name").grid(row = 5, column = 1)
 studentMenu.grid(row = 6, column = 1 )
+
+#creates a pop-up message to confirm check-in
+def popupmsg(msg):
+    popup = tk.Tk()
+    popup.wm_title("!")
+    label = ttk.Label(popup, text=msg)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack()
+    popup.mainloop()
 
 
 #called by display_names to update the student selection list
