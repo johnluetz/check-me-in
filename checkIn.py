@@ -2,7 +2,9 @@
 import tkinter as tk
 from tkinter import ttk
 from csvHandler import insertStudent, get_by_time, update_status, get_by_status
-from slackbot import notify_advisor, start_bot
+import slackbot
+from slackbot import notify_advisor#, start_bot
+from multiprocessing import Process
 
 class Window(tk.Frame):
 
@@ -88,5 +90,10 @@ def refresh_students(studnames):
         studentMenu['menu'].add_command(label=item,command=tk._setit(studvar, item))
 
 #start_bot(None)
-root.mainloop() #runs last!
+if __name__ == '__main__':
+    #Process(root.mainloop()).start() #runs last!
+    #Process(start_bot(None)).start()
+    #start_bot(None)
+    root.mainloop()
+
 
