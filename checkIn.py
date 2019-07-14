@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 from csvHandler import insertStudent, get_by_time, update_status, get_by_status
+from slackbot import notify_advisor, start_bot
 
 class Window(tk.Frame):
 
@@ -39,8 +40,7 @@ class Window(tk.Frame):
                 update_status(student[0],student[1],nowtime,"ARRIVED") #call db with student name as arg and update the status
                 print(get_by_status('ARRIVED'))
                 popupmsg(selected_student+ " has been checked in!")
-                
-                #send notification
+                notify_advisor(student[3],(student[0]+" "+student[1]),student[2],student[4])#send notification
                 break
          
 
@@ -87,6 +87,6 @@ def refresh_students(studnames):
     for item in nss_dict:
         studentMenu['menu'].add_command(label=item,command=tk._setit(studvar, item))
 
-
+start_bot(None)
 root.mainloop() #runs last!
 
