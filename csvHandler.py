@@ -89,25 +89,10 @@ def update_status(first, last, major, time, newstatus):
 
 
 createTable(None) #used for debugging with :memory: table
-insertAll(None) #inserts all from csv into the table
+insertAll(None) #inserts all students from csv into the table
 update_status('john','smith','ME','9:45 AM', 'ARRIVED')
 print(get_by_status('ARRIVED'))
 
 
 conn.commit()
 conn.close()
-
-
-
-
-
-
-
-# for row in csv_reader:
-#     if line_count == 0:
-#         print(f'Column names are {", ".join(row)}')
-#         line_count += 1
-#     else:
-#         print(row[2] + ' ' + row[1])
-#         line_count += 1
-# print(line_count)
