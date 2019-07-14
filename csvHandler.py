@@ -95,4 +95,4 @@ print(get_by_status('ARRIVED'))
 
 
 conn.commit()
-conn.close()
+#conn.close()

@@ -13,15 +13,20 @@ class Window(tk.Frame):
         self.master.title("YEET") #title of master
         self.pack(fill = tk.BOTH, expand = 1) #widget takes full space
         timeButton = tk.Button(self, text="SELECT", command=self.display_names) #create a button (time)
-        timeButton.place(x=100, y=23) #place button
+        timeButton.place(x=200, y=23) #place button
 
         nameButton = tk.Button(self, text="CHECK IN", command=self.check_in) #name
-        nameButton.place(x=100, y=75)
+        nameButton.place(x=200, y=75)
 
     #updates the second dropdown with the corresponding names
     def display_names(self):
-        refresh_students(None)
-        print(timevar.get())
+        studnames = []
+        nowtime = timevar.get() #get the selected time
+        timedata = get_by_time(nowtime)
+        for student in timedata:
+            studnames.append(student[0]+" "+student[1])
+        refresh_students(studnames)
+        
     
     #checks a student in
     def check_in(self):
@@ -51,18 +56,12 @@ tk.Label(app, text="Select your name").grid(row = 5, column = 1)
 studentMenu.grid(row = 6, column = 1 )
 
 
-
-
-
-
-def change_dropdown(item):
-    studvar.set(item)
-
-def refresh_students(self):
+#called by display_names to update the student selection list
+def refresh_students(studnames):
     studvar.set('')
     studentMenu['menu'].delete(0, 'end') #reset dropdown
 
-    nss_dict = {'Longhorn','Bevo', 'Semokey'} #insert new list
+    nss_dict = {studnames[i] : i for i in range(0, len(studnames))} #insert new list
     for item in nss_dict:
         studentMenu['menu'].add_command(label=item,command=tk._setit(studvar, item))
 
