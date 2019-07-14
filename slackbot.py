@@ -60,8 +60,12 @@ def handle_command(command, channel):
     )
 
 def notify_advisor(advisorname, stu_name, stu_major, stu_time):
+    if slack_client.rtm_connect(with_team_state=False):
+        print("Starter Bot connected and running!")
+        starterbot_id = slack_client.api_call("auth.test")["user_id"] #logs into bot
+    
     channel='CL2L8BF34' #channel ID for #check-in-updates
-    advisors = {'John':'@UL917897E'} #list of advisors and ID
+    advisors = {'John':'@UL917897E', 'Audry':'@ULE3F8PAL', 'Sreenidhi':'@UL2MA3ZL3', 'Matthew':'@ULG7W4FHU'} #list of advisors and ID
     #@'s an advisor to let em know who showed up
     message = slack_client.api_call(
     'chat.postMessage',

@@ -39,8 +39,8 @@ class Window(tk.Frame):
             if selected_student == student[0]+" "+student[1]: #if the selected student is one in the database
                 update_status(student[0],student[1],nowtime,"ARRIVED") #call db with student name as arg and update the status
                 print(get_by_status('ARRIVED'))
-                popupmsg(selected_student+ " has been checked in!")
                 notify_advisor(student[3],(student[0]+" "+student[1]),student[2],student[4])#send notification
+                popupmsg(selected_student+ " has been checked in!")
                 break
          
 
@@ -87,6 +87,6 @@ def refresh_students(studnames):
     for item in nss_dict:
         studentMenu['menu'].add_command(label=item,command=tk._setit(studvar, item))
 
-start_bot(None)
+#start_bot(None)
 root.mainloop() #runs last!
 
