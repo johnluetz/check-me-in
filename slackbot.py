@@ -65,16 +65,16 @@ def notify_advisor(advisorname, stu_name, stu_major, stu_time):
         starterbot_id = slack_client.api_call("auth.test")["user_id"] #logs into bot
     
     channel='CL2L8BF34' #channel ID for #check-in-updates
-    advisors = {'John':'@UL917897E', 'Audry':'@ULE3F8PAL', 'Sreenidhi':'@UL2MA3ZL3', 'Matthew':'@ULG7W4FHU'} #list of advisors and ID
+    advisors = {'John':'@UL917897E', 'Audry':'@ULE3F8PAL', 'Sreenidhi':'@UL2MA3ZL3', 'Matthew':'@ULG7W4FHU', 'Rachel':'@ULG8X0WAJ', 'Brittany':'@UL2MCFNQJ',
+                'Jackie':'@UL2P7LDCJ', 'Faith':'@UL2PCV9QS', 'Kaleigh':'@ULGTE0HFZ', 'Ericka':'@UL3KMRH42', 'Shreya':'@UL3L38NR1', 'Christina':'@UL8MNF1K3'} #list of advisors and ID
     #@'s an advisor to let em know who showed up
     message = slack_client.api_call(
     'chat.postMessage',
     link_names=1,
     channel='#check-in-updates',
     text="<"+advisors[advisorname]+'> Your '+stu_time+', '+stu_name+' of major '+stu_major+' is here!'
-    )
+    )#end api-call
 
-    pass
 
 #if __name__ == "__main__":
 def start_bot(self):

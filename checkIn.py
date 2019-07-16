@@ -14,7 +14,7 @@ class Window(tk.Frame):
         self.init_window()
 
     def init_window(self):
-        self.master.title("YEET") #title of master
+        self.master.title("Engineering Advising Check-In") #title of master
         self.pack(fill = tk.BOTH, expand = 1) #widget takes full space
         timeButton = tk.Button(self, text="SELECT", command=self.display_names) #create a button (time)
         timeButton.place(x=200, y=23) #place button
